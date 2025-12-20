@@ -1,0 +1,8 @@
+{
+    "name": "CASH",
+    "code": "cash",
+    "type": "payment",
+    "version": "1.0.0",
+    "description": "CASH payment plugin",
+    "author": "XBoard Team"
+}
