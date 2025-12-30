@@ -126,14 +126,26 @@ class Server extends Model
             'allow_insecure' => ['type' => 'boolean', 'default' => false],
             'server_name' => ['type' => 'string', 'default' => null],
             'network' => ['type' => 'string', 'default' => null],
-            'network_settings' => ['type' => 'array', 'default' => null]
+            'network_settings' => ['type' => 'array', 'default' => null],
+            // Common fields
+            'ip_version' => ['type' => 'string', 'default' => null],
+            'tfo' => ['type' => 'boolean', 'default' => null],
+            'mptcp' => ['type' => 'boolean', 'default' => null],
+            'interface_name' => ['type' => 'string', 'default' => null],
+            'routing_mark' => ['type' => 'integer', 'default' => null],
         ],
         self::TYPE_VMESS => [
             'tls' => ['type' => 'integer', 'default' => 0],
             'network' => ['type' => 'string', 'default' => null],
             'rules' => ['type' => 'array', 'default' => null],
             'network_settings' => ['type' => 'array', 'default' => null],
-            'tls_settings' => ['type' => 'array', 'default' => null]
+            'tls_settings' => ['type' => 'array', 'default' => null],
+            // Common fields
+            'ip_version' => ['type' => 'string', 'default' => null],
+            'tfo' => ['type' => 'boolean', 'default' => null],
+            'mptcp' => ['type' => 'boolean', 'default' => null],
+            'interface_name' => ['type' => 'string', 'default' => null],
+            'routing_mark' => ['type' => 'integer', 'default' => null],
         ],
         self::TYPE_VLESS => [
             'tls' => ['type' => 'integer', 'default' => 0],
@@ -151,14 +163,26 @@ class Server extends Model
                     'private_key' => ['type' => 'string', 'default' => null],
                     'short_id' => ['type' => 'string', 'default' => null]
                 ]
-            ]
+            ],
+            // Common fields
+            'ip_version' => ['type' => 'string', 'default' => null],
+            'tfo' => ['type' => 'boolean', 'default' => null],
+            'mptcp' => ['type' => 'boolean', 'default' => null],
+            'interface_name' => ['type' => 'string', 'default' => null],
+            'routing_mark' => ['type' => 'integer', 'default' => null],
         ],
         self::TYPE_SHADOWSOCKS => [
             'cipher' => ['type' => 'string', 'default' => null],
             'obfs' => ['type' => 'string', 'default' => null],
             'obfs_settings' => ['type' => 'array', 'default' => null],
             'plugin' => ['type' => 'string', 'default' => null],
-            'plugin_opts' => ['type' => 'string', 'default' => null]
+            'plugin_opts' => ['type' => 'string', 'default' => null],
+            // Common fields
+            'ip_version' => ['type' => 'string', 'default' => null],
+            'tfo' => ['type' => 'boolean', 'default' => null],
+            'mptcp' => ['type' => 'boolean', 'default' => null],
+            'interface_name' => ['type' => 'string', 'default' => null],
+            'routing_mark' => ['type' => 'integer', 'default' => null],
         ],
         self::TYPE_HYSTERIA => [
             'version' => ['type' => 'integer', 'default' => 2],
@@ -184,7 +208,13 @@ class Server extends Model
                     'allow_insecure' => ['type' => 'boolean', 'default' => false]
                 ]
             ],
-            'hop_interval' => ['type' => 'integer', 'default' => null]
+            'hop_interval' => ['type' => 'integer', 'default' => null],
+            // Common fields
+            'ip_version' => ['type' => 'string', 'default' => null],
+            'tfo' => ['type' => 'boolean', 'default' => null],
+            'mptcp' => ['type' => 'boolean', 'default' => null],
+            'interface_name' => ['type' => 'string', 'default' => null],
+            'routing_mark' => ['type' => 'integer', 'default' => null],
         ],
         self::TYPE_TUIC => [
             'version' => ['type' => 'integer', 'default' => 5],
@@ -197,7 +227,13 @@ class Server extends Model
                     'server_name' => ['type' => 'string', 'default' => null],
                     'allow_insecure' => ['type' => 'boolean', 'default' => false]
                 ]
-            ]
+            ],
+            // Common fields
+            'ip_version' => ['type' => 'string', 'default' => null],
+            'tfo' => ['type' => 'boolean', 'default' => null],
+            'mptcp' => ['type' => 'boolean', 'default' => null],
+            'interface_name' => ['type' => 'string', 'default' => null],
+            'routing_mark' => ['type' => 'integer', 'default' => null],
         ],
         self::TYPE_ANYTLS => [
             'padding_scheme' => [
@@ -220,7 +256,13 @@ class Server extends Model
                     'server_name' => ['type' => 'string', 'default' => null],
                     'allow_insecure' => ['type' => 'boolean', 'default' => false]
                 ]
-            ]
+            ],
+            // Common fields
+            'ip_version' => ['type' => 'string', 'default' => null],
+            'tfo' => ['type' => 'boolean', 'default' => null],
+            'mptcp' => ['type' => 'boolean', 'default' => null],
+            'interface_name' => ['type' => 'string', 'default' => null],
+            'routing_mark' => ['type' => 'integer', 'default' => null],
         ],
         self::TYPE_SOCKS => [
             'tls' => ['type' => 'integer', 'default' => 0],
@@ -229,11 +271,23 @@ class Server extends Model
                 'fields' => [
                     'allow_insecure' => ['type' => 'boolean', 'default' => false]
                 ]
-            ]
+            ],
+            // Common fields
+            'ip_version' => ['type' => 'string', 'default' => null],
+            'tfo' => ['type' => 'boolean', 'default' => null],
+            'mptcp' => ['type' => 'boolean', 'default' => null],
+            'interface_name' => ['type' => 'string', 'default' => null],
+            'routing_mark' => ['type' => 'integer', 'default' => null],
         ],
         self::TYPE_NAIVE => [
             'tls' => ['type' => 'integer', 'default' => 0],
-            'tls_settings' => ['type' => 'array', 'default' => null]
+            'tls_settings' => ['type' => 'array', 'default' => null],
+            // Common fields
+            'ip_version' => ['type' => 'string', 'default' => null],
+            'tfo' => ['type' => 'boolean', 'default' => null],
+            'mptcp' => ['type' => 'boolean', 'default' => null],
+            'interface_name' => ['type' => 'string', 'default' => null],
+            'routing_mark' => ['type' => 'integer', 'default' => null],
         ],
         self::TYPE_HTTP => [
             'tls' => ['type' => 'integer', 'default' => 0],
@@ -242,11 +296,23 @@ class Server extends Model
                 'fields' => [
                     'allow_insecure' => ['type' => 'boolean', 'default' => false]
                 ]
-            ]
+            ],
+            // Common fields
+            'ip_version' => ['type' => 'string', 'default' => null],
+            'tfo' => ['type' => 'boolean', 'default' => null],
+            'mptcp' => ['type' => 'boolean', 'default' => null],
+            'interface_name' => ['type' => 'string', 'default' => null],
+            'routing_mark' => ['type' => 'integer', 'default' => null],
         ],
         self::TYPE_MIERU => [
             'transport' => ['type' => 'string', 'default' => 'tcp'],
-            'multiplexing' => ['type' => 'string', 'default' => 'MULTIPLEXING_LOW']
+            'multiplexing' => ['type' => 'string', 'default' => 'MULTIPLEXING_LOW'],
+            // Common fields
+            'ip_version' => ['type' => 'string', 'default' => null],
+            'tfo' => ['type' => 'boolean', 'default' => null],
+            'mptcp' => ['type' => 'boolean', 'default' => null],
+            'interface_name' => ['type' => 'string', 'default' => null],
+            'routing_mark' => ['type' => 'integer', 'default' => null],
         ]
     ];
 
