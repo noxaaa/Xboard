@@ -234,7 +234,7 @@ class ClashMeta extends AbstractProtocol
                     $array['plugin-opts'] = $parsedOpts;
             }
         }
-        return $array;
+        return self::applyCommonFields($array, $server);
     }
 
     public static function buildVmess($uuid, $server)
@@ -285,7 +285,7 @@ class ClashMeta extends AbstractProtocol
                 break;
         }
 
-        return $array;
+        return self::applyCommonFields($array, $server);
     }
 
     public static function buildVless($password, $server)
@@ -343,7 +343,7 @@ class ClashMeta extends AbstractProtocol
                 break;
         }
 
-        return $array;
+        return self::applyCommonFields($array, $server);
     }
 
     public static function buildTrojan($password, $server)
@@ -383,7 +383,7 @@ class ClashMeta extends AbstractProtocol
                 break;
         }
 
-        return $array;
+        return self::applyCommonFields($array, $server);
     }
 
     public static function buildHysteria($password, $server, $user)
@@ -422,7 +422,7 @@ class ClashMeta extends AbstractProtocol
                 break;
         }
 
-        return $array;
+        return self::applyCommonFields($array, $server);
     }
 
     public static function buildTuic($password, $server)
@@ -455,7 +455,7 @@ class ClashMeta extends AbstractProtocol
         $array['congestion-controller'] = data_get($protocol_settings, 'congestion_control', 'cubic');
         $array['udp-relay-mode'] = data_get($protocol_settings, 'udp_relay_mode', 'native');
 
-        return $array;
+        return self::applyCommonFields($array, $server);
     }
 
     public static function buildAnyTLS($password, $server)
@@ -478,7 +478,7 @@ class ClashMeta extends AbstractProtocol
             $array['skip-cert-verify'] = (bool) $allowInsecure;
         }
 
-        return $array;
+        return self::applyCommonFields($array, $server);
     }
 
     public static function buildMieru($password, $server)
@@ -500,7 +500,7 @@ class ClashMeta extends AbstractProtocol
             $array['port-range'] = $server['ports'];
         }
 
-        return $array;
+        return self::applyCommonFields($array, $server);
     }
 
     public static function buildSocks5($password, $server)
@@ -522,7 +522,7 @@ class ClashMeta extends AbstractProtocol
             $array['skip-cert-verify'] = (bool) data_get($protocol_settings, 'tls_settings.allow_insecure', false);
         }
 
-        return $array;
+        return self::applyCommonFields($array, $server);
     }
 
     public static function buildHttp($password, $server)
@@ -543,7 +543,7 @@ class ClashMeta extends AbstractProtocol
             $array['skip-cert-verify'] = (bool) data_get($protocol_settings, 'tls_settings.allow_insecure', false);
         }
 
-        return $array;
+        return self::applyCommonFields($array, $server);
     }
 
     private function isMatch($exp, $str)
@@ -565,5 +565,44 @@ class ClashMeta extends AbstractProtocol
         } catch (\Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * 应用通用代理字段 (适用于所有协议类型)
+     *
+     * @param array $proxy 代理配置数组
+     * @param array $server 服务器配置
+     * @return array
+     */
+    private static function applyCommonFields(array $proxy, array $server): array
+    {
+        $protocol_settings = data_get($server, 'protocol_settings', []);
+
+        // ip-version: dual, ipv4, ipv6, ipv4-prefer, ipv6-prefer
+        if ($ipVersion = data_get($protocol_settings, 'ip_version')) {
+            $proxy['ip-version'] = $ipVersion;
+        }
+
+        // TCP Fast Open
+        if (($tfo = data_get($protocol_settings, 'tfo')) !== null) {
+            $proxy['tfo'] = (bool) $tfo;
+        }
+
+        // Multipath TCP
+        if (($mptcp = data_get($protocol_settings, 'mptcp')) !== null) {
+            $proxy['mptcp'] = (bool) $mptcp;
+        }
+
+        // 绑定网卡
+        if ($interfaceName = data_get($protocol_settings, 'interface_name')) {
+            $proxy['interface-name'] = $interfaceName;
+        }
+
+        // 路由标记
+        if ($routingMark = data_get($protocol_settings, 'routing_mark')) {
+            $proxy['routing-mark'] = (int) $routingMark;
+        }
+
+        return $proxy;
     }
 }
