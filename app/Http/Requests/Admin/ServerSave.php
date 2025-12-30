@@ -8,6 +8,15 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ServerSave extends FormRequest
 {
+    // 通用字段验证规则
+    private const COMMON_RULES = [
+        'ip_version' => 'nullable|string|in:dual,ipv4,ipv6,ipv4-prefer,ipv6-prefer',
+        'tfo' => 'nullable|boolean',
+        'mptcp' => 'nullable|boolean',
+        'interface_name' => 'nullable|string|max:255',
+        'routing_mark' => 'nullable|integer',
+    ];
+
     private const PROTOCOL_RULES = [
         'shadowsocks' => [
             'cipher' => 'required|string',
@@ -55,6 +64,13 @@ class ServerSave extends FormRequest
             'reality_settings.public_key' => 'nullable|string',
             'reality_settings.private_key' => 'nullable|string',
             'reality_settings.short_id' => 'nullable|string',
+        ],
+        'tuic' => [
+            'congestion_control' => 'nullable|string',
+            'alpn' => 'nullable|array',
+            'udp_relay_mode' => 'nullable|string',
+            'tls.server_name' => 'nullable|string',
+            'tls.allow_insecure' => 'nullable|boolean',
         ],
         'socks' => [
         ],
@@ -109,6 +125,12 @@ class ServerSave extends FormRequest
         $type = $this->input('type');
         $rules = $this->getBaseRules();
 
+        // 添加通用字段验证规则
+        foreach (self::COMMON_RULES as $field => $rule) {
+            $rules['protocol_settings.' . $field] = $rule;
+        }
+
+        // 添加协议特定字段验证规则
         foreach (self::PROTOCOL_RULES[$type] ?? [] as $field => $rule) {
             $rules['protocol_settings.' . $field] = $rule;
         }
